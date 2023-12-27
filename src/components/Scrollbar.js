@@ -1,3 +1,4 @@
+import 'simplebar-react/dist/simplebar.min.css';
 import PropTypes from 'prop-types';
 import SimpleBarReact from 'simplebar-react';
 // @mui
@@ -32,7 +33,7 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
     zIndex: 'inherit',
   },
   "& .simplebar-placeholder": {
-    height: '0 !important',
+    height: 0,
   }
 }));
 
