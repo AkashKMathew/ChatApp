@@ -45,7 +45,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const ChatElement = ({ id, name, image, message, time, unread, online }) => {
+const ChatElement = ({ id, name, image, msg, time, unread, online }) => {
     const theme = useTheme();
   return (
     <Box
@@ -73,7 +73,7 @@ const ChatElement = ({ id, name, image, message, time, unread, online }) => {
 
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
-            <Typography variant="caption">{message}</Typography>
+            <Typography variant="caption">{msg}</Typography>
           </Stack>
         </Stack>
         <Stack spacing={2} alignItems={"center"}>
