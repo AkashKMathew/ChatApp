@@ -15,9 +15,9 @@ const GeneralApp = () => {
           width: "100%",
           backgroundColor:
             theme.palette.mode === "light"
-              ? "#fff"
+              ? "#F0F4FA"
               : theme.palette.background.default,
-        }}>
+        }}> 
         <Conversation />
       </Box>
     </Stack>
