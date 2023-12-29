@@ -1,13 +1,18 @@
+import React from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Divider,
+  Fade,
   IconButton,
   Link,
+  Menu,
+  MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
-import { DownloadSimple, Image } from "phosphor-react";
+import { DotsThreeVertical, DownloadSimple, Image } from "phosphor-react";
+import { Message_options } from "../../data";
 
 const DocMsg = ({ el }) => {
   const theme = useTheme();
@@ -40,11 +45,12 @@ const DocMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            sx={{ color:el.incoming? theme.palette.text:"#fff" }}>
+            sx={{ color: el.incoming ? theme.palette.text : "#fff" }}>
             {el.message}
           </Typography>
         </Stack>
       </Box>
+      <MsgOpt/>
     </Stack>
   );
 };
@@ -94,6 +100,7 @@ const LinkMsg = ({ el }) => {
           </Stack>
         </Stack>
       </Box>
+      <MsgOpt/>
     </Stack>
   );
 };
@@ -132,6 +139,7 @@ const ReplyMsg = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MsgOpt/>
     </Stack>
   );
 };
@@ -162,6 +170,7 @@ const MediaMsg = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MsgOpt/>
     </Stack>
   );
 };
@@ -185,6 +194,7 @@ const TextMsg = ({ el }) => {
           {el.message}
         </Typography>
       </Box>
+      <MsgOpt />
     </Stack>
   );
 };
@@ -202,6 +212,45 @@ const Timeline = ({ el }) => {
       </Typography>
       <Divider width="46%" />
     </Stack>
+  );
+};
+
+const MsgOpt = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <DotsThreeVertical
+        size={20}
+        id="fade-button"
+        aria-controls={open ? "fade-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      />
+
+      <Menu
+        id="fade-menu"
+        MenuListProps={{
+          "aria-labelledby": "fade-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}>
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={() => {}}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
+    </>
   );
 };
 
