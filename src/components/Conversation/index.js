@@ -16,7 +16,7 @@ const Conversation = () => {
         clickOnTrack={false}
       >
         <Box sx={{width:"100%"}} >
-          <Message />
+          <Message menu={true}/>
         </Box>
       </SimpleBarStyle>
       <Footer />
