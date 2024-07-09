@@ -8,8 +8,8 @@ import { Link, Typography } from "@mui/material";
 const MainLayout = () => {
   return (
     <>
-      <Container sx={{ pt: 5, height: "100vh" }} maxWidth="sm">
-        <Stack spacing={5} alignItems={"center"}>
+      <Container maxWidth="sm">
+        <Stack spacing={5} sx={{height:"100vh"}} justifyContent={"center"}>
           <Stack
             sx={{ width: "100%" }}
             direction="column"
@@ -28,8 +28,9 @@ const MainLayout = () => {
               </Stack>
             </Stack>
           </Stack>
-        </Stack>
         <Outlet />
+        </Stack>
+
       </Container>
     </>
   );

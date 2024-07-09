@@ -61,13 +61,11 @@ const LoginForm = () => {
         <RHFTextField
           name="email"
           label="Email address"
-          helperText="Enter your email"
         />
         <RHFTextField
           name="password"
           label="Password"
           type={showPassword ? "text" : "password"}
-          helperText="Enter your password"
           InputProps={{
             endAdornment: (
               <InputAdornment>
