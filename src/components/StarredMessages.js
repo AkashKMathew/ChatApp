@@ -5,6 +5,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { UpdateSidebarType } from "../redux/slices/app";
 import Message from "./Conversation/Message";
+import { SimpleBarStyle } from "./Scrollbar";
 
 const StarredMessages = () => {
   const dispatch = useDispatch();
@@ -36,17 +37,20 @@ const StarredMessages = () => {
             <Typography variant="subtitle2">Starred Messages</Typography>
           </Stack>
         </Box>
-        <Stack
-          sx={{
-            height: "100%",
-            position: "relative",
-            flexGrow: 1,
-            overflowY: "scroll",
-          }}
-          p={3}
-          spacing={3}>
-            <Message menu={false}/>
+        <SimpleBarStyle
+          style={{ flexGrow: 1, maxHeight: "100%", overflow: "auto" }}
+          timeout={500}
+          clickOnTrack={false}>
+          <Stack
+            sx={{
+              height: "100%",
+              position: "relative",
+            }}
+            p={3}
+            spacing={3}>
+            <Message menu={false} />
           </Stack>
+        </SimpleBarStyle>
       </Stack>
     </Box>
   );

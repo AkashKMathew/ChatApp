@@ -30,6 +30,7 @@ import { useDispatch } from "react-redux";
 import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
 import AntSwitch from "./AntSwitch";
+import { SimpleBarStyle } from "./Scrollbar";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -119,135 +120,143 @@ const Contact = () => {
             </IconButton>
           </Stack>
         </Box>
-        <Stack
-          sx={{
-            height: "100%",
-            position: "relative",
-            flexGrow: 1,
-            overflowY: "scroll",
-          }}
-          p={3}
-          spacing={3}>
-          <Stack alignItems={"center"} direction={"row"} spacing={2}>
-            <Avatar
-              src={faker.image.avatar()}
-              alt={faker.name.firstName}
-              sx={{ height: 64, width: 64 }}
-            />
+
+        <SimpleBarStyle
+          style={{ flexGrow: 1, maxHeight: "100%", overflow: "auto" }}
+          timeout={500}
+          clickOnTrack={false}>
+          <Stack
+            sx={{
+              height: "100%",
+              position: "relative",
+            }}
+            p={3}
+            spacing={3}>
+            <Stack alignItems={"center"} direction={"row"} spacing={2}>
+              <Avatar
+                src={faker.image.avatar()}
+                alt={faker.name.firstName}
+                sx={{ height: 64, width: 64 }}
+              />
+              <Stack spacing={0.5}>
+                <Typography variant="article" fontWeight={600}>
+                  {faker.name.fullName()}
+                </Typography>
+                <Typography variant="body2" fontWeight={500}>
+                  {"+91 8234536435"}
+                </Typography>
+              </Stack>
+            </Stack>
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-evenly"}>
+              <Stack spacing={1} alignItems={"center"}>
+                <IconButton>
+                  <Phone />
+                </IconButton>
+                <Typography variant="overline">Voice</Typography>
+              </Stack>
+              <Stack spacing={1} alignItems={"center"}>
+                <IconButton>
+                  <VideoCamera />
+                </IconButton>
+                <Typography variant="overline">Video</Typography>
+              </Stack>
+            </Stack>
+            <Divider />
             <Stack spacing={0.5}>
-              <Typography variant="article" fontWeight={600}>
-                {faker.name.fullName()}
-              </Typography>
-              <Typography variant="body2" fontWeight={500}>
-                {"+91 8234536435"}
-              </Typography>
+              <Typography variant="article">About</Typography>
+              <Typography variant="body2">Create your own world!!!</Typography>
             </Stack>
-          </Stack>
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-evenly"}>
-            <Stack spacing={1} alignItems={"center"}>
-              <IconButton>
-                <Phone />
+            <Divider />
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}>
+              <Typography variant="subtitle">Media, Links & Docs</Typography>
+              <Button
+                onClick={() => {
+                  dispatch(UpdateSidebarType("SHARED"));
+                }}
+                endIcon={<CaretRight />}>
+                500
+              </Button>
+            </Stack>
+            <Stack direction={"row"} spacing={2} alignItems={"center"}>
+              {[1, 2, 3].map((el) => (
+                <Box>
+                  <img src={faker.image.food()} alt={faker.name.fullName()} />
+                </Box>
+              ))}
+            </Stack>
+            <Divider />
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}>
+              <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                <Star size={21} />
+                <Typography variant="subtitle2">Starred Message</Typography>
+              </Stack>
+              <IconButton
+                onClick={() => {
+                  dispatch(UpdateSidebarType("STARRED"));
+                }}>
+                <CaretRight />
               </IconButton>
-              <Typography variant="overline">Voice</Typography>
             </Stack>
-            <Stack spacing={1} alignItems={"center"}>
-              <IconButton>
-                <VideoCamera />
-              </IconButton>
-              <Typography variant="overline">Video</Typography>
+            <Divider />
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}>
+              <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                <Bell size={21} />
+                <Typography variant="subtitle2">New Notifications</Typography>
+              </Stack>
+              <AntSwitch />
             </Stack>
-          </Stack>
-          <Divider />
-          <Stack spacing={0.5}>
-            <Typography variant="article">About</Typography>
-            <Typography variant="body2">Create your own world!!!</Typography>
-          </Stack>
-          <Divider />
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}>
-            <Typography variant="subtitle">Media, Links & Docs</Typography>
-            <Button
-              onClick={() => {
-                dispatch(UpdateSidebarType("SHARED"));
-              }}
-              endIcon={<CaretRight />}>
-              500
-            </Button>
-          </Stack>
-          <Stack direction={"row"} spacing={2} alignItems={"center"}>
-            {[1, 2, 3].map((el) => (
-              <Box>
-                <img src={faker.image.food()} alt={faker.name.fullName()} />
-              </Box>
-            ))}
-          </Stack>
-          <Divider />
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}>
+            <Divider />
+            <Typography>1 group in common</Typography>
+            <Stack direction={"row"} spacing={2} alignItems={"center"}>
+              <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
+              <Stack spacing={0.5}>
+                <Typography variant="subtitle2">Coding Mong</Typography>
+                <Typography variant="caption">
+                  Owl, Parrot, Rabbit, You
+                </Typography>
+              </Stack>
+            </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={2}>
-              <Star size={21} />
-              <Typography variant="subtitle2">Starred Message</Typography>
-            </Stack>
-            <IconButton
-              onClick={() => {
-                dispatch(UpdateSidebarType("STARRED"));
-              }}>
-              <CaretRight />
-            </IconButton>
-          </Stack>
-          <Divider />
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}>
-            <Stack direction={"row"} alignItems={"center"} spacing={2}>
-              <Bell size={21} />
-              <Typography variant="subtitle2">New Notifications</Typography>
-            </Stack>
-            <AntSwitch />
-          </Stack>
-          <Divider />
-          <Typography>1 group in common</Typography>
-          <Stack direction={"row"} spacing={2} alignItems={"center"}>
-            <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
-            <Stack spacing={0.5}>
-              <Typography variant="subtitle2">Coding Mong</Typography>
-              <Typography variant="caption">
-                Owl, Parrot, Rabbit, You
-              </Typography>
+              <Button
+                onClick={() => {
+                  setOpenBlock(true);
+                }}
+                startIcon={<Prohibit />}
+                fullWidth
+                variant="outlined">
+                Block
+              </Button>
+              <Button
+                onClick={() => {
+                  setOpenDelete(true);
+                }}
+                startIcon={<Trash />}
+                fullWidth
+                variant="outlined">
+                Delete
+              </Button>
             </Stack>
           </Stack>
-          <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            <Button
-              onClick={() => {
-                setOpenBlock(true);
-              }}
-              startIcon={<Prohibit />}
-              fullWidth
-              variant="outlined">
-              Block
-            </Button>
-            <Button
-              onClick={() => {
-                setOpenDelete(true);
-              }}
-              startIcon={<Trash />}
-              fullWidth
-              variant="outlined">
-              Delete
-            </Button>
-          </Stack>
-        </Stack>
+        </SimpleBarStyle>
       </Stack>
-      {openBlock && <BlockDialog open={openBlock} handleClose={handleCloseBlock}/>}
-      {openDelete && <DeleteDialog open={openDelete} handleClose={handleCloseDelete}/>}
+      {openBlock && (
+        <BlockDialog open={openBlock} handleClose={handleCloseBlock} />
+      )}
+      {openDelete && (
+        <DeleteDialog open={openDelete} handleClose={handleCloseDelete} />
+      )}
     </Box>
   );
 };
