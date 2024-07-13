@@ -16,9 +16,41 @@ import { faker } from "@faker-js/faker";
 import useSettings from "../../hooks/useSettings";
 import React, { useState } from "react";
 import AntSwitch from "./AntSwitch";
+import { useNavigate } from "react-router-dom";
+
+const getPath = (index) =>{
+  switch(index){
+    case 0:
+      return "/app";
+    case 1:
+      return "/group";
+    case 2:
+      return "/call";
+    case 3:
+      return "/settings";
+    default:
+      break;
+  }
+}
+
+const getMenuPath = (index) =>{
+  switch(index){
+    case 0:
+      return "/profile";
+    case 1:
+      return "/settings";
+    case 2:
+      //set isAuth = false
+      return "/auth/login";
+    default:
+      break;
+
+  }
+}
 
 const Sidebar = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const { onToggleMode } = useSettings();
 
@@ -60,7 +92,7 @@ const Sidebar = () => {
             direction="column"
             alignItems="center"
             spacing={3}>
-            {Nav_Buttons.map((el) =>
+            {Nav_Buttons.map((el,index) =>
               el.index === selected ? (
                 <Box
                   p={1}
@@ -76,7 +108,11 @@ const Sidebar = () => {
                 </Box>
               ) : (
                 <IconButton
-                  onClick={() => setSelected(el.index)}
+                  onClick={() =>{
+                     setSelected(el.index);
+                     navigate(getPath(index));
+                    }
+                    }
                   sx={{
                     width: "max-content",
                     color: theme.palette.mode === "light" ? "#000" : "#fff",
@@ -136,17 +172,19 @@ const Sidebar = () => {
             onClose={handleClose}
             TransitionComponent={Fade}
             anchorOrigin={{
-              vertical:"bottom",
-              horizontal:"right",
+              vertical: "bottom",
+              horizontal: "right",
             }}
             transformOrigin={{
-              vertical:"bottom",
-              horizontal:"left",
-            }}
-            >
+              vertical: "bottom",
+              horizontal: "left",
+            }}>
             <Stack spacing={1} px={1}>
-              {Profile_Menu.map((el) => (
-                <MenuItem onClick={() => {}}>
+              {Profile_Menu.map((el, idx) => (
+                <MenuItem
+                  onClick={() => {
+                    navigate(getMenuPath(idx));
+                  }}>
                   <Stack
                     sx={{ width: "100%" }}
                     direction={"row"}
