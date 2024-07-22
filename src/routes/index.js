@@ -21,12 +21,13 @@ export default function Router() {
   return useRoutes([
     {
       path: "/auth",
-      element: <MainLayout/>,
+      element: <MainLayout />,
       children: [
-        {element:<LoginPage/>,path:"login"},
-        {element:<RegisterPage/>,path:"register"},
-        {element:<ResetPassPage/>,path:"reset-password"},
-        {element:<NewPassPage/>,path:"new-password"}
+        { element: <LoginPage />, path: "login" },
+        { element: <RegisterPage />, path: "register" },
+        { element: <ResetPassPage />, path: "reset-password" },
+        { element: <NewPassPage />, path: "new-password" },
+        { element: <VerifyPage />, path: "verify" },
       ],
     },
     {
@@ -35,7 +36,7 @@ export default function Router() {
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
         { path: "app", element: <GeneralApp /> },
-        
+
         { path: "404", element: <Page404 /> },
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
@@ -45,20 +46,13 @@ export default function Router() {
 }
 
 const GeneralApp = Loadable(
-  lazy(() => import("../pages/dashboard/GeneralApp")),
+  lazy(() => import("../pages/dashboard/GeneralApp"))
 );
 
-const LoginPage = Loadable(
-  lazy(() => import("../pages/auth/Login")),
-);
-const RegisterPage = Loadable(
-  lazy(() => import("../pages/auth/Register")),
-);
-const ResetPassPage = Loadable(
-  lazy(() => import("../pages/auth/ResetPassword")),
-);
-const NewPassPage = Loadable(
-  lazy(() => import("../pages/auth/NewPassword")),
-);
+const LoginPage = Loadable(lazy(() => import("../pages/auth/Login")));
+const RegisterPage = Loadable(lazy(() => import("../pages/auth/Register")));
+const ResetPassPage = Loadable(lazy(() => import("../pages/auth/ResetPassword")));
+const NewPassPage = Loadable(lazy(() => import("../pages/auth/NewPassword")));
+const VerifyPage = Loadable(lazy(() => import("../pages/auth/Verify")));
 
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));

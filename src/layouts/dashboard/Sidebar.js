@@ -17,9 +17,11 @@ import useSettings from "../../hooks/useSettings";
 import React, { useState } from "react";
 import AntSwitch from "./AntSwitch";
 import { useNavigate } from "react-router-dom";
+import { LogoutUser } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
-const getPath = (index) =>{
-  switch(index){
+const getPath = (index) => {
+  switch (index) {
     case 0:
       return "/app";
     case 1:
@@ -31,10 +33,10 @@ const getPath = (index) =>{
     default:
       break;
   }
-}
+};
 
-const getMenuPath = (index) =>{
-  switch(index){
+const getMenuPath = (index) => {
+  switch (index) {
     case 0:
       return "/profile";
     case 1:
@@ -44,11 +46,11 @@ const getMenuPath = (index) =>{
       return "/auth/login";
     default:
       break;
-
   }
-}
+};
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
@@ -92,7 +94,7 @@ const Sidebar = () => {
             direction="column"
             alignItems="center"
             spacing={3}>
-            {Nav_Buttons.map((el,index) =>
+            {Nav_Buttons.map((el, index) =>
               el.index === selected ? (
                 <Box
                   p={1}
@@ -108,11 +110,10 @@ const Sidebar = () => {
                 </Box>
               ) : (
                 <IconButton
-                  onClick={() =>{
-                     setSelected(el.index);
-                     navigate(getPath(index));
-                    }
-                    }
+                  onClick={() => {
+                    setSelected(el.index);
+                    navigate(getPath(index));
+                  }}
                   sx={{
                     width: "max-content",
                     color: theme.palette.mode === "light" ? "#000" : "#fff",
@@ -183,7 +184,8 @@ const Sidebar = () => {
               {Profile_Menu.map((el, idx) => (
                 <MenuItem
                   onClick={() => {
-                    navigate(getMenuPath(idx));
+                    if (idx === 2) dispatch(LogoutUser());
+                    else navigate(getMenuPath(idx));
                   }}>
                   <Stack
                     sx={{ width: "100%" }}
