@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
+import { showSnackbar } from "./app";
 
 const initialState = {
   isLoading: false,
@@ -55,9 +56,21 @@ export function LoginUser(formValues) {
             token: response.data.token,
           })
         );
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(
+          showSnackbar({
+            severity: "error",
+            message: error.response?.data.message,
+          })
+        );
       });
   };
 }
@@ -65,6 +78,12 @@ export function LoginUser(formValues) {
 export function LogoutUser() {
   return async (dispatch, getState) => {
     dispatch(slice.actions.signOut());
+    dispatch(
+      showSnackbar({
+        severity: "success",
+        message: "Logged out successfully",
+      })
+    );
   };
 }
 
@@ -84,9 +103,21 @@ export function ForgotPassword(formValues) {
       )
       .then((response) => {
         console.log(response);
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(
+          showSnackbar({
+            severity: "error",
+            message: error.response?.data.message,
+          })
+        );
       });
   };
 }
@@ -113,9 +144,21 @@ export function NewPassword(formValues) {
             token: response.data.token,
           })
         );
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(
+          showSnackbar({
+            severity: "error",
+            message: error.response?.data.message,
+          })
+        );
       });
   };
 }
@@ -153,6 +196,12 @@ export function RegisterUser(formValues) {
             error: false,
           })
         );
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
       })
       .catch((error) => {
         dispatch(
@@ -162,6 +211,12 @@ export function RegisterUser(formValues) {
           })
         );
         console.log(error);
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: error.response?.data.message,
+          })
+        );
       })
       .finally(() => {
         if (!getState().auth.error) window.location.href = "/auth/verify";
@@ -196,7 +251,13 @@ export function VerifyEmail(formValues) {
             isLoading: false,
             error: false,
           })
-        )
+        );
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: response.data.message,
+          })
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -206,9 +267,15 @@ export function VerifyEmail(formValues) {
             error: true,
           })
         );
+        dispatch(
+          showSnackbar({
+            severity: "success",
+            message: error.response?.data.message,
+          })
+        );
       })
       .finally(() => {
-        if(!getState.auth.error)window.location.href = "/auth/login";
+        if (!getState.auth.error) window.location.href = "/auth/login";
       });
   };
 }
