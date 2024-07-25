@@ -9,11 +9,10 @@ import {
   Button,
   IconButton,
   InputAdornment,
-  Link,
   Stack,
 } from "@mui/material";
 import { Eye, EyeSlash } from "phosphor-react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { NewPassword } from "../../redux/slices/auth";
 
@@ -46,7 +45,7 @@ const NewPassForm = () => {
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {

@@ -37,8 +37,6 @@ const VerifyForm = () => {
   });
 
   const {
-    reset,
-    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = methods;

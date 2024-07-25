@@ -29,7 +29,7 @@ const ResetPasswordForm = () => {
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
