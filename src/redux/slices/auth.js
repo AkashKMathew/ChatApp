@@ -146,6 +146,7 @@ export function NewPassword(formValues) {
             token: response.data.token,
           })
         );
+        window.localStorage.setItem("user_id", response.data.user_id);
         dispatch(
           showSnackbar({
             severity: "success",

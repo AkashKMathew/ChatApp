@@ -14,17 +14,13 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      window.onload = () => {
-        if (!window.location.hash) {
-          window.location = window.location + "#loaded";
-          window.location.reload();
-        }
-      };
-
-      window.reload();
+      if (!window.location.hash) {
+        window.location = window.location + "#loaded";
+      }
 
       if (!socket) {
         connectSocket(user_id);
+        console.log("connecting to socket");
       }
 
       socket.on("new_friend_request", (data) => {

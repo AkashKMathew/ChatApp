@@ -98,6 +98,7 @@ const Sidebar = () => {
               el.index === selected ? (
                 <Box
                   p={1}
+                  key={el.index}
                   sx={{
                     backgroundColor: theme.palette.primary.main,
                     borderRadius: 1.5,
@@ -183,16 +184,18 @@ const Sidebar = () => {
             <Stack spacing={1} px={1}>
               {Profile_Menu.map((el, idx) => (
                 <MenuItem
+                  key={idx}
                   onClick={() => {
                     if (idx === 2) dispatch(LogoutUser());
                     else navigate(getMenuPath(idx));
                   }}>
                   <Stack
+                    key={idx}
                     sx={{ width: "100%" }}
                     direction={"row"}
                     alignItems={"center"}
                     justifyContent={"space-between"}>
-                    <span>{el.title}</span>
+                    <span key={idx}>{el.title}</span>
                     {el.icon}
                   </Stack>
                 </MenuItem>
