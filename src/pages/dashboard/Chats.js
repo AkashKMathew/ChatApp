@@ -17,10 +17,14 @@ import {
   MagnifyingGlass,
   Users,
 } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import Friends from "../../sections/main/Friends";
+import { useDispatch, useSelector } from "react-redux";
+import { SelectConv } from "../../redux/slices/app";
+import { socket } from "../../socket";
+import { FetchDirectConv } from "../../redux/slices/conv";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -52,15 +56,25 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const ChatElement = ({ id, name, image, msg, time, unread, online }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const { room_id } = useSelector((state) => state.app);
+  const selectedChatId = room_id?.toString();
+  let isSelected = selectedChatId && selectedChatId === id.toString();
   return (
     <Box
+      onClick={() => {
+        dispatch(SelectConv({ room_id: id }));
+      }}
       sx={{
         width: "100%",
-        backgroundColor:
-          theme.palette.mode === "light"
-            ? "#fff"
-            : theme.palette.background.default,
+        backgroundColor: isSelected
+          ? theme.palette.mode === "light"
+            ? alpha(theme.palette.primary.main, 0.5)
+            : theme.palette.primary.main
+          : theme.palette.mode === "light"
+          ? "#fff"
+          : theme.palette.background.paper,
         borderRadius: 1,
       }}
       p={2}>
@@ -123,9 +137,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const user_id = window.localStorage.getItem("user_id");
+
 const Chats = () => {
+  const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
+
+  const { conv } = useSelector((state) => state.conv.direct_chat);
+
+  useEffect(() => {
+    socket.emit("get_direct_conv", { user_id }, (data) => {
+      //
+      dispatch(FetchDirectConv({ conv: data }));
+    });
+  }, []);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -187,21 +213,23 @@ const Chats = () => {
               style={{ maxHeight: "100%" }}
               timeout={500}
               clickOnTrack={false}>
-              <Stack spacing={2.4} sx={{ marginBottom: 2 }}>
+              {/* <Stack spacing={2.4} sx={{ marginBottom: 2 }}>
                 <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   Pinned
                 </Typography>
                 {ChatList.filter((el) => el.pinned).map((el) => {
                   return <ChatElement {...el} />;
                 })}
-              </Stack>
+              </Stack> */}
               <Stack spacing={2.4}>
                 <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   All chats
                 </Typography>
-                {ChatList.filter((el) => !el.pinned).map((el) => {
-                  return <ChatElement {...el} />;
-                })}
+                {conv
+                  .filter((el) => !el.pinned)
+                  .map((el) => {
+                    return <ChatElement {...el} />;
+                  })}
               </Stack>
             </SimpleBarStyle>
           </Stack>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../../utils/axios";
 
 const initialState = {
   sidebar: {
@@ -14,6 +14,9 @@ const initialState = {
   users: [],
   friends: [],
   friendRequests: [],
+  chat_type: null,
+  room_id: null,
+
 };
 
 const slice = createSlice({
@@ -48,6 +51,10 @@ const slice = createSlice({
     updateFriendRequests(state, action) {
       state.friendRequests = action.payload.friendRequests;
     },
+    selectConv(state, action){
+      state.chat_type = "individual";
+      state.room_id = action.payload.room_id;
+    }
   },
 });
 
@@ -87,7 +94,7 @@ export function hideSnackbar() {
 export function FetchUsers() {
   return async (dispatch, getState) => {
     await axios
-      .get("/users/get-users", {
+      .get("/user/get-users", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getState().auth.token}`,
@@ -106,7 +113,7 @@ export function FetchUsers() {
 export function FetchFriends() {
   return async (dispatch, getState) => {
     await axios
-      .get("/users/get-friends", {
+      .get("/user/get-friends", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getState().auth.token}`,
@@ -125,7 +132,7 @@ export function FetchFriends() {
 export function FetchFriendRequests() {
   return async (dispatch, getState) => {
     await axios
-      .get("/users/get-friend-requests", {
+      .get("/user/get-friend-requests", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getState().auth.token}`,
@@ -141,4 +148,10 @@ export function FetchFriendRequests() {
         console.log(err);
       });
   };
+}
+
+export const SelectConv = ({room_id}) =>{
+  return (dispatch, getState) =>{
+    dispatch(slice.actions.selectConv({room_id}));
+  }
 }

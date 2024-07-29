@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Fab,
@@ -22,6 +22,8 @@ import {
 } from "phosphor-react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { useSelector } from "react-redux";
+import { socket } from "../../socket";
 
 const StyledInput = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
@@ -63,10 +65,13 @@ const Actions = [
   },
 ];
 
-const ChatInput = ({ setOpenPicker }) => {
+const ChatInput = ({ setOpenPicker, setValue, value, inputRef }) => {
   const [openActions, setOpenActions] = useState(0);
   return (
     <StyledInput
+      inputRef={inputRef}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
       fullWidth
       placeholder="Write a message..."
       variant="filled"
@@ -117,9 +122,40 @@ const ChatInput = ({ setOpenPicker }) => {
   );
 };
 
+function linkify(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(
+    urlRegex,
+    (url) => `<a href="${url}" target="_blank">${url}</a>`
+  );
+}
+
+function containsUrl(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return urlRegex.test(text);
+}
+
 const Footer = () => {
   const theme = useTheme();
   const [openPicker, setOpenPicker] = useState(0);
+  const { current_conv } = useSelector((state) => state.conv.direct_chat);
+  const { room_id } = useSelector((state) => state.app);
+  const user_id = window.localStorage.getItem("user_id");
+  const [value, setValue] = useState("");
+  const inputRef = useRef(null);
+
+  function handleEmojiClick(emoji){
+    const input = inputRef.current;
+    if(input){
+      const selectionStart = input.selectionStart;
+      const selectionEnd = input.selectionEnd;
+      setValue(
+        value.substring(0,selectionStart)+
+        emoji +
+        value.substring(selectionEnd)
+      )
+    }
+  }
   return (
     <Box
       p={2}
@@ -144,11 +180,18 @@ const Footer = () => {
             <Picker
               theme={theme.palette.mode}
               data={data}
-              onEmojiSelect={console.log}
+              onEmojiSelect={(emoji)=>{
+                handleEmojiClick(emoji.native);
+              }}
             />
           </Box>
 
-          <ChatInput setOpenPicker={setOpenPicker} />
+          <ChatInput
+            setOpenPicker={setOpenPicker}
+            inputRef={inputRef}
+            value={value}
+            setValue={setValue}
+          />
         </Stack>
 
         <Box
@@ -162,7 +205,17 @@ const Footer = () => {
             sx={{ height: "100%", width: "100%" }}
             alignItems={"center"}
             justifyContent={"center"}>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                socket.emit("text_message", {
+                  message: linkify(value),
+                  conv_id: room_id,
+                  from: user_id,
+                  to: current_conv.user_id,
+                  type: containsUrl(value) ? "Link" : "Text",
+                });
+                setValue("");
+              }}>
               <PaperPlaneTilt color="#fff" />
             </IconButton>
           </Stack>

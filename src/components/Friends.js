@@ -19,8 +19,9 @@ const StyledChatBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+const user_id = window.localStorage.getItem("user_id");
+
 const UserComponent = ({ firstName, lastName, _id, online, img }) => {
-  const user_id = window.localStorage.getItem("user_id");
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
   return (
@@ -98,18 +99,27 @@ const FriendComponent = ({ firstName, lastName, _id, online, img }) => {
           </Stack>
         </Stack>
         <Stack direction={"row"} spacing={2} alignItems={"center"}>
-            <IconButton onClick={()=>{
-                //start new conversation
+          <IconButton
+            onClick={() => {
+              //start new conversation
+              socket.emit("start_conv", { to: _id, from: user_id });
             }}>
-                <Chat/>
-            </IconButton>
+            <Chat />
+          </IconButton>
         </Stack>
       </Stack>
     </StyledChatBox>
   );
 };
 
-const FriendRequestComponent = ({ firstName, lastName, _id, online, img, id }) => {
+const FriendRequestComponent = ({
+  firstName,
+  lastName,
+  _id,
+  online,
+  img,
+  id,
+}) => {
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
   return (
@@ -143,7 +153,7 @@ const FriendRequestComponent = ({ firstName, lastName, _id, online, img, id }) =
         <Stack direction={"row"} spacing={2} alignItems={"center"}>
           <Button
             onClick={() => {
-              socket.emit("accept_request", {request_id:id }, () => {
+              socket.emit("accept_request", { request_id: id }, () => {
                 alert("Request accepted");
               });
             }}>
@@ -155,4 +165,4 @@ const FriendRequestComponent = ({ firstName, lastName, _id, online, img, id }) =
   );
 };
 
-export { UserComponent,FriendRequestComponent,FriendComponent };
+export { UserComponent, FriendRequestComponent, FriendComponent };
