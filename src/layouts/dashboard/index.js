@@ -54,7 +54,6 @@ const DashboardLayout = () => {
       });
 
       socket.on("new_message", (data) => {
-        console.log(data);
         const message = data.message;
 
         if (current_conv?.id === data.conv_id) {

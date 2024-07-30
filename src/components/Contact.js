@@ -26,7 +26,7 @@ import {
   VideoCamera,
   X,
 } from "phosphor-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
 import AntSwitch from "./AntSwitch";
@@ -93,6 +93,7 @@ const Contact = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+  const { current_conv } = useSelector((state) => state.conv.direct_chat);
   return (
     <Box sx={{ width: 320, height: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
@@ -140,10 +141,10 @@ const Contact = () => {
               />
               <Stack spacing={0.5}>
                 <Typography variant="article" fontWeight={600}>
-                  {faker.name.fullName()}
+                  {current_conv.name}
                 </Typography>
                 <Typography variant="body2" fontWeight={500}>
-                  {"+91 8234536435"}
+                  {"+91 xxxxxxxxxx"}
                 </Typography>
               </Stack>
             </Stack>
@@ -222,7 +223,7 @@ const Contact = () => {
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
               <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
               <Stack spacing={0.5}>
-                <Typography variant="subtitle2">Coding Mong</Typography>
+                <Typography variant="subtitle2">Commoners</Typography>
                 <Typography variant="caption">
                   Owl, Parrot, Rabbit, You
                 </Typography>

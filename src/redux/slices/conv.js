@@ -83,7 +83,6 @@ const slice = createSlice({
     },
 
     addCurrentMessage(state, action) {
-      console.log(action.payload.current_message);
       state.direct_chat.current_messages.push(action.payload.current_message);
     },
 

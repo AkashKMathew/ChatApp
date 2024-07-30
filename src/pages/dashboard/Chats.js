@@ -227,8 +227,8 @@ const Chats = () => {
                 </Typography>
                 {conv
                   .filter((el) => !el.pinned)
-                  .map((el) => {
-                    return <ChatElement {...el} />;
+                  .map((el,idx) => {
+                    return <ChatElement key={idx} {...el} />;
                   })}
               </Stack>
             </SimpleBarStyle>

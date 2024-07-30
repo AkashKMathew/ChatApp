@@ -62,7 +62,7 @@ export function getFileFormat(fileUrl) {
 
 const getIcon = (name) => (
   <Image
-    src={`https://codingmonk/assets/icons/file/${name}.svg`}
+    src={`https://talky/assets/icons/file/${name}.svg`}
     alt={name}
     sx={{ width: 28, height: 28 }}
   />

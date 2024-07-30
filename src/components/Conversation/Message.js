@@ -34,23 +34,23 @@ const Message = ({ menu }) => {
   return (
     <Box p={3}>
       <Stack spacing={3}>
-        {current_messages.map((el) =>{if(el)
+        {current_messages.map((el,idx) =>{if(el)
           switch (el.type) {
             case "divider":
-              return <Timeline el={el} />;
+              return <Timeline key={idx} el={el} />;
             case "msg":
               switch (el.subtype) {
                 case "img":
-                  return <MediaMsg el={el} menu={menu} />;
+                  return <MediaMsg key={idx} el={el} menu={menu} />;
                 case "doc":
-                  return <DocMsg el={el} menu={menu} />;
+                  return <DocMsg key={idx} el={el} menu={menu} />;
                 case "link":
-                  return <LinkMsg el={el} menu={menu} />;
+                  return <LinkMsg key={idx} el={el} menu={menu} />;
                 case "reply":
-                  return <ReplyMsg el={el} menu={menu} />;
+                  return <ReplyMsg key={idx} el={el} menu={menu} />;
 
                 default:
-                  return <TextMsg el={el} menu={menu} />;
+                  return <TextMsg key={idx} el={el} menu={menu} />;
               }
             default:
               return <></>;
