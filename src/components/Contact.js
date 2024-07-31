@@ -31,6 +31,7 @@ import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
 import AntSwitch from "./AntSwitch";
 import { SimpleBarStyle } from "./Scrollbar";
+import useResponsive from "../hooks/useResponsive";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -83,6 +84,7 @@ const DeleteDialog = ({ open, handleClose }) => {
 const Contact = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const isMobile = useResponsive("between", "md", "xs", "sm");
 
   const [openBlock, setOpenBlock] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -95,7 +97,7 @@ const Contact = () => {
   };
   const { current_conv } = useSelector((state) => state.conv.direct_chat);
   return (
-    <Box sx={{ width: 320, height: "100vh" }}>
+    <Box sx={{ width: isMobile?"100%":"320px", height: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
         <Box
           sx={{
@@ -141,7 +143,7 @@ const Contact = () => {
               />
               <Stack spacing={0.5}>
                 <Typography variant="article" fontWeight={600}>
-                  {current_conv.name}
+                  {current_conv?.name}
                 </Typography>
                 <Typography variant="body2" fontWeight={500}>
                   {"+91 xxxxxxxxxx"}

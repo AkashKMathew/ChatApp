@@ -1,6 +1,5 @@
 import { Box, Stack } from "@mui/material";
 import React, { useEffect } from "react";
-import { Chat_History } from "../../data";
 import {
   DocMsg,
   LinkMsg,
@@ -29,12 +28,12 @@ const Message = ({ menu }) => {
     });
 
     dispatch(SetCurrentConv({ conv: current }));
-  }, []);
+  }, [dispatch, room_id, conv]);
 
   return (
     <Box p={3}>
       <Stack spacing={3}>
-        {current_messages.map((el,idx) =>{if(el)
+        {current_messages.map((el,idx) =>{
           switch (el.type) {
             case "divider":
               return <Timeline key={idx} el={el} />;

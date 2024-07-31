@@ -8,7 +8,7 @@ function NoChat({ ...other }) {
 
   return (
     <Box {...other}>
-      <img style={{ height: "360px", width: "360px" }} src={logo} alt="logo" />
+      <img style={{ height: "160px", width: "160px" }} src={logo} alt="logo" />
     </Box>
   );
 }

@@ -6,6 +6,9 @@ const initialState = {
     open: false,
     type: "CONTACT", //CONTACT, STARRED, SHARED
   },
+  chat:{
+    open: false,
+  },
   snackbar: {
     open: false,
     message: null,
@@ -29,6 +32,10 @@ const slice = createSlice({
     },
     updateSidebarType(state, action) {
       state.sidebar.type = action.payload.type;
+    },
+    //toggle chat
+    toggleChat(state, action){
+      state.chat.open = !state.chat.open;
     },
     //toggle snackbar
     openSnackbar(state, action) {
@@ -73,6 +80,12 @@ export function UpdateSidebarType(type) {
         type,
       })
     );
+  };
+}
+
+export function ToggleChat() {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.toggleChat());
   };
 }
 

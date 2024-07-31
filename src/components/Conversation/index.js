@@ -15,8 +15,9 @@ const Conversation = () => {
   useEffect(() => {
     messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
   }, [current_messages]);
+
   return (
-    <Stack sx={{ height: "100vh", width: "auto" }}>
+    <Stack sx={{ height: "100vh", width: "auto",}}>
       <Header />
       <SimpleBarStyle
         scrollableNodeProps={{ ref: messageListRef }}

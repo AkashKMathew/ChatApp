@@ -13,6 +13,7 @@ import {
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
+
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   const { conv, current_conv } = useSelector(
@@ -81,7 +82,7 @@ const DashboardLayout = () => {
         socket.off("new_message");
       }
     };
-  }, [isLoggedIn, socket]);
+  }, [isLoggedIn, user_id, dispatch, conv, current_conv]);
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
@@ -89,7 +90,7 @@ const DashboardLayout = () => {
 
   return (
     <>
-      <Stack direction={"row"}>
+      <Stack direction={"row"} sx={{width:"100vw"}}>
         <Sidebar />
         <Outlet />
       </Stack>

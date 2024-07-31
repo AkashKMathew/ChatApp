@@ -8,36 +8,65 @@ import { useSelector } from "react-redux";
 import SharedMessages from "../../components/SharedMessages";
 import StarredMessages from "../../components/StarredMessages";
 import NoChat from "../../assets/Illustration/NoChat";
+import useResponsive from "../../hooks/useResponsive";
 
 const GeneralApp = () => {
   const theme = useTheme();
-  const { sidebar, chat_type, room_id } = useSelector((store) => store.app);
-
+  const { sidebar, chat_type, room_id, chat } = useSelector(
+    (store) => store.app
+  );
+  const isMobile = useResponsive("between", "md", "xs", "sm");
   return (
-    <Stack direction={"row"} sx={{ width: "100%" }}>
+    <Stack direction={"row"} sx={{ width: "calc(100vw - 100px)" }}>
       <Chats />
-      <Box
-        sx={{
-          height: "100%",
-          width: sidebar.open ? "calc(100vw - 740px)" : "calc(100vw - 420px)",
-          backgroundColor:
-            theme.palette.mode === "light"
-              ? "#F0F4FA"
-              : theme.palette.background.default,
-        }}>
-        {room_id !== null && chat_type === "individual" ? (
+      {(room_id !== null &&
+        chat_type === "individual" &&
+        chat.open &&
+        !isMobile) ||
+      (isMobile && !sidebar.open && chat.open) ? (
+        <Box
+          sx={{
+            height: "100%",
+            width: !isMobile
+              ? sidebar.open
+                ? "calc(100vw - 740px)"
+                : "calc(100vw - 420px)"
+              : "100%",
+            backgroundColor:
+              theme.palette.mode === "light"
+                ? "#F0F4FA"
+                : theme.palette.background.default,
+          }}>
           <Conversation />
-        ) : (
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            height: "100%",
+            width: !isMobile
+              ? sidebar.open
+                ? "calc(100vw - 740px)"
+                : "calc(100vw - 420px)"
+              : "0",
+            backgroundColor:
+              theme.palette.mode === "light"
+                ? "#F0F4FA"
+                : theme.palette.background.default,
+          }}>
           <Stack
             spacing={2}
-            sx={{ height: "100%", width: "100%" }}
+            sx={{
+              height: "100%",
+              width: "100%",
+              display: isMobile ? "none" : "flex",
+            }}
             alignItems={"center"}
             justifyContent={"center"}>
             <NoChat />
             <Typography>Select a Conversation or Start a New One.</Typography>
           </Stack>
-        )}
-      </Box>
+        </Box>
+      )}
       {sidebar.open &&
         (() => {
           switch (sidebar.type) {

@@ -18,13 +18,13 @@ import {
   Users,
 } from "phosphor-react";
 import React, { useEffect, useState } from "react";
-import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import Friends from "../../sections/main/Friends";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectConv } from "../../redux/slices/app";
+import { SelectConv, ToggleChat } from "../../redux/slices/app";
 import { socket } from "../../socket";
 import { FetchDirectConv } from "../../redux/slices/conv";
+import useResponsive from "../../hooks/useResponsive";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -57,18 +57,20 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const ChatElement = ({ id, name, image, msg, time, unread, online }) => {
   const dispatch = useDispatch();
+  const isMobile = useResponsive("between", "md", "xs", "sm");
   const theme = useTheme();
-  const { room_id } = useSelector((state) => state.app);
+  const { room_id,chat } = useSelector((state) => state.app);
   const selectedChatId = room_id?.toString();
-  let isSelected = selectedChatId && selectedChatId === id.toString();
+  let isSelected = chat.open && selectedChatId && selectedChatId === id.toString();
   return (
     <Box
       onClick={() => {
         dispatch(SelectConv({ room_id: id }));
+        dispatch(ToggleChat());
       }}
       sx={{
         width: "100%",
-        backgroundColor: isSelected
+        backgroundColor: isSelected && !isMobile
           ? theme.palette.mode === "light"
             ? alpha(theme.palette.primary.main, 0.5)
             : theme.palette.primary.main
@@ -141,6 +143,8 @@ const user_id = window.localStorage.getItem("user_id");
 
 const Chats = () => {
   const dispatch = useDispatch();
+  const isMobile = useResponsive("between", "md", "xs", "sm");
+  const {chat} = useSelector((state) => state.app);
   const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
 
@@ -151,7 +155,7 @@ const Chats = () => {
       //
       dispatch(FetchDirectConv({ conv: data }));
     });
-  }, []);
+  }, [dispatch]);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -161,22 +165,22 @@ const Chats = () => {
     setOpenDialog(true);
   };
   return (
-    <>
+    <Box sx={{width:isMobile?"100%":"320px",display:isMobile && chat.open?"none":"block"}}>
       <Box
         sx={{
           position: "relative",
-          width: 320,
+          width: "100%",
           backgroundColor:
             theme.palette.mode === "light"
               ? "#f8faff"
               : theme.palette.background.paper,
           boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
         }}>
-        <Stack p={3} spacing={2} sx={{ height: "100vh" }}>
+        <Stack p={3} spacing={2} sx={{ height: "100vh",width:"100%" }}>
           <Stack
             direction={"row"}
             alignItems={"center"}
-            justifyContent={"space-between"}>
+            justifyContent={"space-between"} sx={{width:"100%"}}>
             <Typography variant="h5">Chats</Typography>
             <Stack direction={"row"} alignItems={"center"} spacing={1}>
               <IconButton
@@ -238,7 +242,7 @@ const Chats = () => {
       {openDialog && (
         <Friends open={openDialog} handleClose={handleCloseDialog} />
       )}
-    </>
+    </Box>
   );
 };
 

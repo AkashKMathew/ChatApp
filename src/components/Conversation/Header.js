@@ -9,20 +9,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
+import { MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
 import StyledBadge from "../StyledBadge";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleSidebar } from "../../redux/slices/app";
+import { ToggleChat, ToggleSidebar } from "../../redux/slices/app";
+import { X } from "phosphor-react/dist";
 
 const Header = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const {current_conv} = useSelector((state) => state.conv.direct_chat);
+  const { current_conv } = useSelector((state) => state.conv.direct_chat);
   return (
     <Box
       p={2}
       sx={{
-        width: "100%",
+        width: "auto",
         backgroundColor:
           theme.palette.mode === "light"
             ? "#F8FAFF"
@@ -34,7 +35,8 @@ const Header = () => {
         direction={"row"}
         justifyContent={"space-between"}
         sx={{ width: "100%", height: "100%" }}>
-        <Stack sx={{cursor:"pointer"}}
+        <Stack
+          sx={{ cursor: "pointer" }}
           onClick={() => {
             dispatch(ToggleSidebar());
           }}
@@ -48,15 +50,15 @@ const Header = () => {
                 horizontal: "right",
               }}
               variant="dot">
-              <Avatar alt={current_conv.name} src={faker.image.avatar()} />
+              <Avatar alt={current_conv?.name} src={faker.image.avatar()} />
             </StyledBadge>
           </Box>
           <Stack spacing={0.2}>
-            <Typography variant="subtitle2">{current_conv.name}</Typography>
+            <Typography variant="subtitle2">{current_conv?.name}</Typography>
             <Typography variant="caption">Online</Typography>
           </Stack>
         </Stack>
-        <Stack direction={"row"} alignItems={"center"} spacing={3}>
+        <Stack direction={"row"} alignItems={"center"} spacing={1}>
           <IconButton>
             <VideoCamera />
           </IconButton>
@@ -67,8 +69,10 @@ const Header = () => {
             <MagnifyingGlass />
           </IconButton>
           <Divider orientation="vertical" flexItem={true} />
-          <IconButton>
-            <CaretDown />
+          <IconButton onClick={()=>{
+            dispatch(ToggleChat());
+          }}>
+            <X />
           </IconButton>
         </Stack>
       </Stack>

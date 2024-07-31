@@ -16,10 +16,12 @@ import { faker } from "@faker-js/faker";
 import { SHARED_DOCS, SHARED_LINKS } from "../data";
 import { DocMsg, LinkMsg } from "./Conversation/MsgTypes";
 import { SimpleBarStyle } from "./Scrollbar";
+import useResponsive from "../hooks/useResponsive";
 
 const SharedMessages = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const isMobile = useResponsive("between", "md", "xs", "sm");
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -27,7 +29,7 @@ const SharedMessages = () => {
   };
 
   return (
-    <Box sx={{ width: 320, height: "100vh" }}>
+    <Box sx={{ width: isMobile?"100%":"320px", height: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
         <Box
           sx={{
