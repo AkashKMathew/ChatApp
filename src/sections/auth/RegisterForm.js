@@ -6,6 +6,7 @@ import FormProvider from "../../components/hook-form/FormProvider";
 import {
   Alert,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Stack,
@@ -99,7 +100,8 @@ const RegisterForm = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment>
-                <IconButton onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}>
+                <IconButton
+                  onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}>
                   {showPassword ? <Eye /> : <EyeSlash />}
                 </IconButton>
               </InputAdornment>
@@ -122,7 +124,11 @@ const RegisterForm = () => {
             },
           }}
           disabled={isSubmitting}>
-          Create Account
+          {isSubmitting ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Create Account"
+          )}
         </Button>
       </Stack>
     </FormProvider>

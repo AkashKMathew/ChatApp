@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormProvider from "../../components/hook-form/FormProvider";
 import { RHFTextField } from "../../components/hook-form";
-import { Alert, Button, Stack } from "@mui/material";
+import { Alert, Button, CircularProgress, Stack } from "@mui/material";
 import { ForgotPassword } from "../../redux/slices/auth";
 import { useDispatch } from "react-redux";
 
@@ -68,7 +68,11 @@ const ResetPasswordForm = () => {
             },
           }}
           disabled={isSubmitting}>
-          Send Request
+          {isSubmitting ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Send Request"
+          )}
         </Button>
       </Stack>
     </FormProvider>

@@ -7,6 +7,7 @@ import { RHFTextField } from "../../components/hook-form";
 import {
   Alert,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Link,
@@ -80,7 +81,12 @@ const LoginForm = () => {
         />
       </Stack>
       <Stack alignItems={"flex-end"} sx={{ mt: 2 }}>
-        <Link to="/auth/reset-password" component={RouterLink} variant="body2" color={"inherit"} underline="always">
+        <Link
+          to="/auth/reset-password"
+          component={RouterLink}
+          variant="body2"
+          color={"inherit"}
+          underline="always">
           Forgot password?
         </Link>
       </Stack>
@@ -100,7 +106,11 @@ const LoginForm = () => {
           },
         }}
         disabled={isSubmitting}>
-        Login
+        {isSubmitting ? (
+          <CircularProgress size={24} color="inherit" />
+        ) : (
+          "Login"
+        )}
       </Button>
     </FormProvider>
   );

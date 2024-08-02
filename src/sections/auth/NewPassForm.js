@@ -7,6 +7,7 @@ import { RHFTextField } from "../../components/hook-form";
 import {
   Alert,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Stack,
@@ -51,7 +52,7 @@ const NewPassForm = () => {
   const onSubmit = async (data) => {
     try {
       //submit data to the server
-      dispatch(NewPassword({...data, token:queryPrameters.get("token")}));
+      dispatch(NewPassword({ ...data, token: queryPrameters.get("token") }));
     } catch (e) {
       console.log(e);
       reset();
@@ -111,7 +112,11 @@ const NewPassForm = () => {
             },
           }}
           disabled={isSubmitting}>
-          Submit
+          {isSubmitting ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </Stack>
     </FormProvider>
