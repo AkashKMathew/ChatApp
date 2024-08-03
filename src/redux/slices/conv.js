@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { createSlice } from "@reduxjs/toolkit";
 
-const user_id = window.localStorage.getItem("user_id");
+// const user_id = window.localStorage.getItem("user_id");
 
 const initialState = {
   direct_chat: {
@@ -12,11 +12,14 @@ const initialState = {
   group_chat: {},
 };
 
+let user_id="";
+
 const slice = createSlice({
   name: "conv",
   initialState,
   reducers: {
     fetchDirectConv(state, action) {
+      user_id = action.payload.user_id;
       const list = action.payload.conv.map((el) => {
         const this_user = el.participants.find(
           (elm) => elm._id.toString() !== user_id
@@ -104,9 +107,9 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const FetchDirectConv = ({ conv }) => {
+export const FetchDirectConv = ({ conv, user_id }) => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.fetchDirectConv({ conv }));
+    dispatch(slice.actions.fetchDirectConv({ conv, user_id }));
   };
 };
 

@@ -153,7 +153,7 @@ const Chats = () => {
   useEffect(() => {
     socket.emit("get_direct_conv", { user_id }, (data) => {
       //
-      dispatch(FetchDirectConv({ conv: data }));
+      dispatch(FetchDirectConv({ conv: data,user_id:user_id }));
     });
   }, [dispatch]);
 
