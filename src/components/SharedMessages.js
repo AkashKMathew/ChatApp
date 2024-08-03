@@ -29,7 +29,7 @@ const SharedMessages = () => {
   };
 
   return (
-    <Box sx={{ width: isMobile?"100%":"320px", height: "100vh" }}>
+    <Box sx={{ width: isMobile?"100%":"320px", height: "100dvh" }}>
       <Stack sx={{ height: "100%" }}>
         <Box
           sx={{

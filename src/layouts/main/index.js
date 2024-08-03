@@ -15,7 +15,7 @@ const MainLayout = () => {
   return (
     <>
       <Container maxWidth="sm">
-        <Stack spacing={5} sx={{ height: "100vh" }} justifyContent={"center"}>
+        <Stack spacing={5} sx={{ height: "100dvh" }} justifyContent={"center"}>
           <Stack
             sx={{ width: "100%" }}
             direction="column"

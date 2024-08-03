@@ -17,7 +17,7 @@ const Conversation = () => {
   }, [current_messages]);
 
   return (
-    <Stack sx={{ height: "100vh", width: "auto",}}>
+    <Stack sx={{ height: "100dvh", width: "auto",}}>
       <Header />
       <SimpleBarStyle
         scrollableNodeProps={{ ref: messageListRef }}

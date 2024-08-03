@@ -71,7 +71,7 @@ const Sidebar = () => {
       sx={{
         backgroundColor: theme.palette.background.paper,
         boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
-        height: "100vh",
+        height: "100dvh",
         width: "100px",
       }}>
       <Stack
@@ -188,7 +188,7 @@ const Sidebar = () => {
                   key={idx}
                   onClick={() => {
                     if (idx === 2){
-                      socket.emit("end", { user_id: "user_id" });
+                      socket.emit("end", { user_id: localStorage.getItem("user_id") });
                       dispatch(LogoutUser());
                     }
                     else navigate(getMenuPath(idx));
